@@ -36,9 +36,6 @@ function App() {
     return { word, category };
   }, [words]);
 
-  console.log(score);
-  console.log(gameStage);
-
   const startGame = useCallback(() => {
     clearLetterStates();
 
