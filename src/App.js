@@ -92,12 +92,12 @@ function App() {
   useEffect(() => {
     const uniqueLetters = [...new Set(letters)];
 
-    if (guessedLetters.length === uniqueLetters.length) {
+    if (gameStage === 'game' && guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => (actualScore += 100));
       setGuesses(guessesQty);
       startGame();
     }
-  }, [guessedLetters, letters, startGame]);
+  }, [guessedLetters, letters, startGame, gameStage]);
 
   return (
     <div className="App">
