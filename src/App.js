@@ -14,6 +14,8 @@ const stages = [
   {id: 3, name: 'end'}
 ];
 
+const guessesQty = 5;
+
 function App() {
   const [gameStage, setGameStage] = useState(stages[0].name);
   const [words] = useState(wordsList);
@@ -48,12 +50,42 @@ function App() {
   }
 
   const verifyLetter = (letter) => {
-    console.log(letter);
+    const normalizedLetter = letter.toLowerCase();
+
+    if (guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter)) return;
+
+    if (letters.includes(normalizedLetter)) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+        normalizedLetter
+      ]);
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters,
+        normalizedLetter
+      ]);
+
+      setGuesses((actualGuesses) => actualGuesses - 1);
+    }
+  }
+
+  const clearLetterStates = () => {
+    setGuessedLetters([]);
+    setWrongLetters([]);
   }
 
   const retry = () => {
+    setScore(0);
+    setGuesses(guessesQty);
     setGameStage(stages[0].name);
   }
+
+  useEffect(() => {
+    if (guesses <= 0) {
+      clearLetterStates();
+      setGameStage(stages[2].name);
+    }
+  }, [guesses]);
 
   return (
     <div className="App">
@@ -70,7 +102,7 @@ function App() {
           score={score}
         />
       )}
-      {gameStage === 'end' && <GameOver retry={retry} />}
+      {gameStage === 'end' && <GameOver retry={retry} score={score} />}
     </div>
   );
 }
