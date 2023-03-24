@@ -1,12 +1,12 @@
-import './App.css';
-
 import { useCallback, useEffect, useState } from 'react';
+import Router from './router';
 
 import { wordsList } from './data/words';
 
-import StartScreen from './components/StartScreen';
-import Game from './components/Game';
-import GameOver from './components/GameOver';
+// Components
+// import StartScreen from './components/StartScreen';
+// import Game from './components/Game';
+// import GameOver from './components/GameOver';
 
 const stages = [
   {id: 1, name: 'start'},
@@ -100,22 +100,23 @@ function App() {
   }, [guessedLetters, letters, startGame, gameStage]);
 
   return (
-    <div className="App">
-      {gameStage === 'start' && <StartScreen startGame={startGame} />}
-      {gameStage === 'game' && (
-        <Game 
-          verifyLetter={verifyLetter}
-          pickedWord={pickedWord}
-          pickedCategory={pickedCategory}
-          letters={letters}
-          guessedLetters={guessedLetters}
-          wrongLetters={wrongLetters}
-          guesses={guesses}
-          score={score}
-        />
-      )}
-      {gameStage === 'end' && <GameOver retry={retry} score={score} />}
-    </div>
+    <Router />
+    // <div className="App">
+    //   {gameStage === 'start' && <StartScreen startGame={startGame} />}
+    //   {gameStage === 'game' && (
+    //     <Game 
+    //       verifyLetter={verifyLetter}
+    //       pickedWord={pickedWord}
+    //       pickedCategory={pickedCategory}
+    //       letters={letters}
+    //       guessedLetters={guessedLetters}
+    //       wrongLetters={wrongLetters}
+    //       guesses={guesses}
+    //       score={score}
+    //     />
+    //   )}
+    //   {gameStage === 'end' && <GameOver retry={retry} score={score} />}
+    // </div>
   );
 }
 
