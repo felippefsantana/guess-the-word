@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import StartScreen from './pages/StartScreen';
-import Game from './pages/Game';
-import GameOver from './pages/GameOver';
+import StartScreen from './pages/StartScreen/StartScreen';
+import Game from './pages/Game/Game';
+import GameOver from './pages/GameOver/GameOver';
 
 const Router = () => {
   return (

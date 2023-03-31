@@ -1,4 +1,4 @@
-import '../styles/GameOver.css';
+import './styles.module.css';
 
 const GameOver = () => {
   return (
