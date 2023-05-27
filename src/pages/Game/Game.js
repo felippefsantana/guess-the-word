@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ScoreContext } from '../../contexts/ScoreContext';
 import { wordsList } from '../../data/words';
 
 import styles from './styles.module.css';
@@ -7,6 +8,8 @@ import styles from './styles.module.css';
 const guessesQty = 5;
 
 const Game = () => {
+  const { score, setScore } = useContext(ScoreContext);
+
   const navigate = useNavigate();
   
   const letterInputRef = useRef(null);
@@ -18,7 +21,6 @@ const Game = () => {
   const [guessedLetters, setGuessedLetters] = useState([]);
   const [wrongLetters, setWrongLetters] = useState([]);
   const [guesses, setGuesses] = useState(guessesQty);
-  const [score, setScore] = useState(0);
   const [letter, setLetter] = useState('');
 
   const pickWordAndCategory = useCallback(() => {
@@ -33,12 +35,11 @@ const Game = () => {
     clearLetterStates();
 
     const { word, category } = pickWordAndCategory();
-    let wordLetters = word.split('');
-
-    wordLetters = wordLetters.map((l) => l.toLowerCase());
-
     setPickedWord(word);
     setPickedCategory(category);
+
+    let wordLetters = word.split('');
+    wordLetters = wordLetters.map((l) => l.toLowerCase());
     setLetters(wordLetters);
   }, [pickWordAndCategory]);
 
@@ -102,7 +103,7 @@ const Game = () => {
       setGuesses(guessesQty);
       startGame();
     }
-  }, [guessedLetters, letters, startGame]);
+  }, [guessedLetters, letters, startGame, setScore]);
 
   useEffect(() => {
     const initializeGame = () => {
@@ -150,9 +151,9 @@ const Game = () => {
 
         <div className={styles.wrongLetterContainer}>
           <p>Letras já utilizadas:</p>
-          <span>a, </span>
-          <span>i, </span>
-          <span>c</span>
+          {wrongLetters.map((letter, i) => (
+            <span key={i}>{letter}, </span>
+          ))}
         </div>
       </div>
     </div>
