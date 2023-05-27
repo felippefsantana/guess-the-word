@@ -23,7 +23,7 @@ const Game = () => {
 
   const pickWordAndCategory = useCallback(() => {
     const categories = Object.keys(words);
-    const category = categories[Math.floor(Math.random() * Object.keys(categories).length)];
+    const category = categories[Math.floor(Math.random() * categories.length)];
     const word = words[category][Math.floor(Math.random() * words[category].length)];
 
     return { word, category };
@@ -43,11 +43,17 @@ const Game = () => {
   }, [pickWordAndCategory]);
 
   const verifyLetter = (letter) => {
-    const normalizedLetter = letter.toLowerCase();
+    const guessedLetter = letter.trim().toLowerCase();
+    const normalizedLetter = normalizeLetter(guessedLetter);
+    const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
 
-    if (guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter)) return;
+    if (
+      !normalizedLetter 
+      || guessedLetters.includes(normalizedLetter) 
+      || wrongLetters.includes(normalizedLetter)
+    ) return;
 
-    if (letters.includes(normalizedLetter)) {
+    if (wordNormalizedLetters.includes(normalizedLetter)) {
       setGuessedLetters((actualGuessedLetters) => [
         ...actualGuessedLetters,
         normalizedLetter
@@ -60,6 +66,11 @@ const Game = () => {
 
       setGuesses((actualGuesses) => actualGuesses - 1);
     }
+  }
+
+  const normalizeLetter = (letter) => {
+    const normalized = letter.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return normalized.toLowerCase();
   }
 
   const clearLetterStates = () => {
@@ -113,7 +124,7 @@ const Game = () => {
 
         <div className={`${styles.wordContainer} d-flex m-3 p-3`}>
           {letters.map((letter, i) => (
-            guessedLetters.includes(letter) ? (
+            guessedLetters.includes(normalizeLetter(letter)) ? (
               <span key={i} className={`${styles.letter} fs-1 border rounded`}>{letter}</span>
             ) : (
               <span key={i} className={`${styles.blankSquare} fs-1 border rounded`}></span>
