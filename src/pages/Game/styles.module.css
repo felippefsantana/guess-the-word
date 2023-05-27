@@ -4,7 +4,7 @@
 
 .letter, .blankSquare {
   margin: 0.25rem;
-  /* height: 4.5rem; */
+  height: 4.5rem;
   width: 4.5rem;
   line-height: 1.75;
   text-transform: uppercase;
