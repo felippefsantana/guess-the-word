@@ -100,7 +100,9 @@ function App() {
   }, [guessedLetters, letters, startGame, gameStage]);
 
   return (
-    <Router />
+    <div className="App">
+      <Router />
+    </div>
     // <div className="App">
     //   {gameStage === 'start' && <StartScreen startGame={startGame} />}
     //   {gameStage === 'game' && (

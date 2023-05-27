@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
 
 const Game = () => {
@@ -28,7 +29,8 @@ const Game = () => {
               className={`${styles.letter} text-center fs-1 border rounded me-3`}
               maxlength="1"
             />
-            <button className="btn btn-success rounded-pill fs-3 px-5">Jogar!</button>
+            <Link to="/gameover" className="btn btn-success rounded-pill fs-3 px-5">Jogar!</Link>
+            {/* <button className="btn btn-success rounded-pill fs-3 px-5">Jogar!</button> */}
           </form>
         </div>
 
