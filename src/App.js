@@ -7,11 +7,11 @@ import ToggleThemeButton from './components/ToggleThemeButton/ToggleThemeButton'
 import Router from './router';
 
 function App() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);
 
   return (
     <div className={`App position-relative ${theme === 'dark' ? 'bg-dark text-white' : ''}`}>
-      <ToggleThemeButton toggleTheme={toggleTheme} />
+      <ToggleThemeButton />
       <ScoreContextProvider>
         <Router />
       </ScoreContextProvider>

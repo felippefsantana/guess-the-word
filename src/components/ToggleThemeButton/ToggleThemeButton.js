@@ -2,8 +2,8 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import styles from './styles.module.css';
 
-const ToggleThemeButton = ({ toggleTheme }) => {
-  const { theme } = useContext(ThemeContext);
+const ToggleThemeButton = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <div className={`${styles.toggleThemeButton} position-absolute top-0 end-0 mt-3 me-4`}>
