@@ -1,0 +1,23 @@
+[
+  {
+    "word": "Carro",
+    "tips": [
+      "É um veículo",
+      "Possui quatro rodas"
+    ],
+    "categories": [
+      "veículo",
+      "automóvel"
+    ]
+  },
+  {
+    "word": "Pêra",
+    "tips": [
+      "É uma fruta",
+      "Nasce em árvore"
+    ],
+    "categories": [
+      "fruta"
+    ]
+  }
+]
