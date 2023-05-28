@@ -1,10 +1,12 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScoreContext } from '../../contexts/ScoreContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 import styles from './styles.module.css';
 
 const GameOver = () => {
+  const { theme } = useContext(ThemeContext);
   const { score, setScore } = useContext(ScoreContext);
   const navigate = useNavigate();
 
@@ -18,7 +20,7 @@ const GameOver = () => {
       <div className="text-center">
         <h1>Fim de Jogo!</h1>
         <h2>A sua pontuação foi: <span>{ score }</span></h2>
-        <button className="btn btn-outline-dark rounded-pill" onClick={retry}>Tentar novamente</button>
+        <button className={`btn ${theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'} rounded-pill`} onClick={retry}>Tentar novamente</button>
       </div>
     </div>
   )

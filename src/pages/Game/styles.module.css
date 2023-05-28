@@ -2,6 +2,22 @@
   height: 100vh;
 }
 
+.tip {
+  /*  */
+}
+
+.wordContainer {
+  /*  */
+}
+
+.letterContainer {
+  /*  */
+}
+
+.wrongLetterContainer {
+  /*  */
+}
+
 .letter, .blankSquare {
   margin: 0.25rem;
   height: 4.5rem;

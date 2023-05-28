@@ -1,10 +1,17 @@
+import { useContext } from 'react';
+import { ScoreContextProvider } from './contexts/ScoreContext';
+import { ThemeContext } from './contexts/ThemeContext';
+
+import ToggleThemeButton from './components/ToggleThemeButton/ToggleThemeButton';
+
 import Router from './router';
 
-import { ScoreContextProvider } from './contexts/ScoreContext';
-
 function App() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   return (
-    <div className="App">
+    <div className={`App position-relative ${theme === 'dark' ? 'bg-dark text-white' : ''}`}>
+      <ToggleThemeButton toggleTheme={toggleTheme} />
       <ScoreContextProvider>
         <Router />
       </ScoreContextProvider>

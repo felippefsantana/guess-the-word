@@ -5,3 +5,7 @@ html, body {
 body {
   background-color: #fff;
 }
+
+.App {
+  transition: .3s;
+}

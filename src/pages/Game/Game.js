@@ -121,9 +121,9 @@ const Game = () => {
         <h3 className={styles.tip}>
           Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
         </h3>
-        <p>Você ainda tem <b>{ guesses }</b> tentativa(s).</p>
+        <p>Você ainda tem <span className="text-warning"><b>{ guesses }</b></span> tentativa(s).</p>
 
-        <div className={`${styles.wordContainer} d-flex m-3 p-3`}>
+        <div className={`${styles.wordContainer} d-flex justify-content-center flex-wrap m-3 p-3`}>
           {letters.map((letter, i) => (
             guessedLetters.includes(normalizeLetter(letter)) ? (
               <span key={i} className={`${styles.letter} fs-1 border rounded`}>{letter}</span>
@@ -133,7 +133,7 @@ const Game = () => {
           ))}
         </div>
 
-        <div className={styles.letterContainer}>
+        <div className={`${styles.letterContainer} mb-3`}>
           <p>Tente adivinhar uma letra da palavra:</p>
           <form className="d-flex justify-content-center align-items-center" onSubmit={handleSubmit}>
             <input 
