@@ -101,7 +101,9 @@ const Game = () => {
     if (uniqueLetters.length && guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => (actualScore += 100));
       setGuesses(guessesQty);
-      startGame();
+      setTimeout(() => {
+        startGame();
+      }, 1500);
     }
   }, [guessedLetters, letters, startGame, setScore]);
 
@@ -139,8 +141,9 @@ const Game = () => {
             <input 
               type="text"
               name="letter"
-              className={`${styles.letter} text-center fs-1 border rounded me-3`}
+              className={`${styles.letter} form-control text-center fs-1 border rounded me-3`}
               maxLength="1"
+              autoComplete="off"
               onChange={(e) => setLetter(e.target.value)}
               value={letter}
               ref={letterInputRef}

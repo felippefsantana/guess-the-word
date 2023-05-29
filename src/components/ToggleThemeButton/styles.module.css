@@ -35,7 +35,7 @@
 	transform: translateX(-100%);
 	background: linear-gradient(180deg,#777,#3a3a3a);
 }
-.toggleThemeButton label:active:after{
+.toggleThemeButton label:active:after {
 	width: 50px;
 }
 .toggleThemeButton input:checked + label + .background {
