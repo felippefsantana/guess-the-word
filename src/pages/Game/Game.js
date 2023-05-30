@@ -13,8 +13,8 @@ const Game = () => {
   const navigate = useNavigate();
   
   const letterInputRef = useRef(null);
-  const [words] = useState(wordsList);
 
+  const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState('');
   const [pickedCategory, setPickedCategory] = useState('');
   const [letters, setLetters] = useState([]);
@@ -22,21 +22,25 @@ const Game = () => {
   const [wrongLetters, setWrongLetters] = useState([]);
   const [guesses, setGuesses] = useState(guessesQty);
   const [letter, setLetter] = useState('');
+  const [tips, setTips] = useState([]);
 
   const pickWordAndCategory = useCallback(() => {
-    const categories = Object.keys(words);
+    const item = words[Math.floor(Math.random() * words.length)];
+    const word = item.word;
+    const categories = item.categories;
     const category = categories[Math.floor(Math.random() * categories.length)];
-    const word = words[category][Math.floor(Math.random() * words[category].length)];
+    const tips = item.tips;
 
-    return { word, category };
+    return { word, category, tips };
   }, [words]);
 
   const startGame = useCallback(() => {
     clearLetterStates();
 
-    const { word, category } = pickWordAndCategory();
+    const { word, category, tips } = pickWordAndCategory();
     setPickedWord(word);
     setPickedCategory(category);
+    setTips(tips);
 
     let wordLetters = word.split('');
     wordLetters = wordLetters.map((l) => l.toLowerCase());
@@ -101,15 +105,17 @@ const Game = () => {
     if (uniqueLetters.length && guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => (actualScore += 100));
       setGuesses(guessesQty);
-      startGame();
+      setTimeout(() => {
+        startGame();
+      }, 1500);
     }
   }, [guessedLetters, letters, startGame, setScore]);
 
   useEffect(() => {
     const initializeGame = () => {
       startGame();
-    };
-  
+    }
+
     initializeGame();
   }, [startGame]);
 
@@ -139,8 +145,9 @@ const Game = () => {
             <input 
               type="text"
               name="letter"
-              className={`${styles.letter} text-center fs-1 border rounded me-3`}
+              className={`${styles.letter} form-control text-center fs-1 border rounded me-3`}
               maxLength="1"
+              autoComplete="off"
               onChange={(e) => setLetter(e.target.value)}
               value={letter}
               ref={letterInputRef}
