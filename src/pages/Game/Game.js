@@ -5,7 +5,9 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { wordsList } from '../../data/words';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faCircleQuestion, faEnvelope, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
+import { faCircleInfo, faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
+
+import { toast } from 'react-toastify'
 
 import styles from './styles.module.css';
 
@@ -27,7 +29,7 @@ const Game = () => {
   const [wrongLetters, setWrongLetters] = useState([]);
   const [guesses, setGuesses] = useState(guessesQty);
   const [letter, setLetter] = useState('');
-  const [tips, setTips] = useState([]);
+  const [wordTip, setWordTip] = useState([]);
 
   const pickWordAndCategory = useCallback(() => {
     const item = words[Math.floor(Math.random() * words.length)];
@@ -45,7 +47,7 @@ const Game = () => {
     const { word, category, tips } = pickWordAndCategory();
     setPickedWord(word);
     setPickedCategory(category);
-    setTips(tips);
+    setWordTip(tips[Math.floor(Math.random() * tips.length)]);
 
     let wordLetters = word.split('');
     wordLetters = wordLetters.map((l) => l.toLowerCase());
@@ -95,6 +97,13 @@ const Game = () => {
 
     setLetter('');
     letterInputRef.current.focus();
+  }
+
+  const handleHelpTip = () => {
+    toast.info(wordTip, {
+      position: 'top-center',
+      toastId: 'help-tip'
+    });
   }
 
   useEffect(() => {
@@ -172,7 +181,7 @@ const Game = () => {
         <div className={`${styles.helpersContainer}`}>
           <h4 className="mb-4">Ajudas <FontAwesomeIcon icon={faCircleInfo} /></h4>
           <div className="d-flex justify-content-center align-item-center gap-4">
-            <button className="btn btn-outline-warning rounded align-top fs-3">
+            <button className="btn btn-outline-warning rounded align-top fs-3" onClick={handleHelpTip}>
               <FontAwesomeIcon icon={faCircleQuestion} />
             </button>
             <button className="btn btn-outline-danger rounded fs-3">
