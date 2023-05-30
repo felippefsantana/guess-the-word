@@ -13,8 +13,8 @@ const Game = () => {
   const navigate = useNavigate();
   
   const letterInputRef = useRef(null);
-  // const [words] = useState(wordsList);
 
+  const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState('');
   const [pickedCategory, setPickedCategory] = useState('');
   const [letters, setLetters] = useState([]);
@@ -24,21 +24,15 @@ const Game = () => {
   const [letter, setLetter] = useState('');
   const [tips, setTips] = useState([]);
 
-  const [data, setData] = useState([]);
-
   const pickWordAndCategory = useCallback(() => {
-    // const categories = Object.keys(words);
-    // const category = categories[Math.floor(Math.random() * categories.length)];
-    // const word = words[category][Math.floor(Math.random() * words[category].length)];
-
-    const item = data[Math.floor(Math.random() * data.length)];
+    const item = words[Math.floor(Math.random() * words.length)];
     const word = item.word;
     const categories = item.categories;
     const category = categories[Math.floor(Math.random() * categories.length)];
     const tips = item.tips;
 
     return { word, category, tips };
-  }, [data]);
+  }, [words]);
 
   const startGame = useCallback(() => {
     clearLetterStates();
@@ -118,24 +112,12 @@ const Game = () => {
   }, [guessedLetters, letters, startGame, setScore]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`http://localhost:3001/words`);
-      const data = await response.json();
-      setData(data);
-    }
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
     const initializeGame = () => {
-      if (data.length > 0) {
-        startGame();
-      }
+      startGame();
     }
 
     initializeGame();
-  }, [data, startGame]);
+  }, [startGame]);
 
   return (
     <div className={`${styles.game} d-flex justify-content-center align-items-center`}>
