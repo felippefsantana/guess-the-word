@@ -20,6 +20,11 @@ const Game = () => {
   const navigate = useNavigate();
   
   const letterInputRef = useRef(null);
+  const showRandomWordTipButtonRef = useRef(null);
+  const showRandomWordLettersButtonRef = useRef(null);
+  const skipWordButtonRef = useRef(null);
+
+  const [hasSkipedWord, setHasSkipedWord] = useState(false);
 
   const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState('');
@@ -60,8 +65,9 @@ const Game = () => {
     const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
 
     if (
-      !normalizedLetter 
-      || guessedLetters.includes(normalizedLetter) 
+      !normalizedLetter
+      || !isLetter(normalizedLetter)
+      || guessedLetters.includes(normalizedLetter)
       || wrongLetters.includes(normalizedLetter)
     ) return;
 
@@ -78,6 +84,10 @@ const Game = () => {
 
       setGuesses((actualGuesses) => actualGuesses - 1);
     }
+  }
+
+  const isLetter = (letter) => {
+    return /[a-z]/i.test(letter);
   }
 
   const normalizeLetter = (letter) => {
@@ -99,11 +109,22 @@ const Game = () => {
     letterInputRef.current.focus();
   }
 
-  const handleHelpTip = () => {
+  const handleShowRandomWordTip = () => {
     toast.info(wordTip, {
       position: 'top-center',
       toastId: 'help-tip'
     });
+  }
+
+  const handleShowRandomWordLetters = () => {}
+
+  const handleSkipWord = () => {
+    if (!hasSkipedWord) {
+      startGame();
+      skipWordButtonRef.current.setAttribute("disabled", true);
+      setHasSkipedWord(true);
+      setScore((actualScore) => actualScore - 200 < 0 ? 0 : actualScore - 200);
+    }
   }
 
   useEffect(() => {
@@ -181,13 +202,25 @@ const Game = () => {
         <div className={`${styles.helpersContainer}`}>
           <h4 className="mb-4">Ajudas <FontAwesomeIcon icon={faCircleInfo} /></h4>
           <div className="d-flex justify-content-center align-item-center gap-4">
-            <button className="btn btn-outline-warning rounded align-top fs-3" onClick={handleHelpTip}>
+            <button
+              className="btn btn-outline-warning rounded align-top fs-3"
+              onClick={handleShowRandomWordTip}
+              ref={showRandomWordTipButtonRef}
+            >
               <FontAwesomeIcon icon={faCircleQuestion} />
             </button>
-            <button className="btn btn-outline-danger rounded fs-3">
+            <button
+              className="btn btn-outline-danger rounded fs-3"
+              onClick={handleShowRandomWordLetters}
+              ref={showRandomWordLettersButtonRef}
+            >
               <FontAwesomeIcon icon={faEye} />
             </button>
-            <button className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}>
+            <button
+              className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}
+              onClick={handleSkipWord}
+              ref={skipWordButtonRef}
+            >
               <FontAwesomeIcon icon={faForward} />
             </button>
           </div>
