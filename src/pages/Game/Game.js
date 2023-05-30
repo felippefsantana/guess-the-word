@@ -105,7 +105,8 @@ const Game = () => {
   }, [guesses, navigate]);
 
   useEffect(() => {
-    const uniqueLetters = [...new Set(letters)];
+    const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
+    const uniqueLetters = [...new Set(wordNormalizedLetters)];
 
     if (uniqueLetters.length && guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => (actualScore += 100));
