@@ -1,7 +1,11 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ScoreContext } from '../../contexts/ScoreContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
 import { wordsList } from '../../data/words';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faCircleQuestion, faEnvelope, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './styles.module.css';
 
@@ -9,6 +13,7 @@ const guessesQty = 5;
 
 const Game = () => {
   const { score, setScore } = useContext(ScoreContext);
+  const { theme } = useContext(ThemeContext);
 
   const navigate = useNavigate();
   
@@ -156,11 +161,26 @@ const Game = () => {
           </form>
         </div>
 
-        <div className={styles.wrongLetterContainer}>
+        <div className={`${styles.wrongLetterContainer} mb-5`}>
           <p>Letras já utilizadas:</p>
           {wrongLetters.map((letter, i) => (
             <span key={i}>{letter}, </span>
           ))}
+        </div>
+
+        <div className={`${styles.helpersContainer}`}>
+          <h4 className="mb-4">Ajudas <FontAwesomeIcon icon={faCircleInfo} /></h4>
+          <div className="d-flex justify-content-center align-item-center gap-4">
+            <button className="btn btn-outline-warning rounded align-top fs-3">
+              <FontAwesomeIcon icon={faCircleQuestion} />
+            </button>
+            <button className="btn btn-outline-danger rounded fs-3">
+              <FontAwesomeIcon icon={faEye} />
+            </button>
+            <button className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}>
+              <FontAwesomeIcon icon={faForward} />
+            </button>
+          </div>
         </div>
       </div>
     </div>
