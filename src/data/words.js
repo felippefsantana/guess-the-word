@@ -3,8 +3,8 @@ export const wordsList = [
     "id": 1,
     "word": "Carro",
     "tips": [
-      "É um veículo",
-      "Possui quatro rodas"
+      "Possui quatro rodas",
+      "É um veículo terrestre"
     ],
     "categories": [
       "veículo",
@@ -13,6 +13,105 @@ export const wordsList = [
   },
   {
     "id": 2,
+    "word": "Caminhão",
+    "tips": [
+      "É um veículo de grande porte",
+      "Usado para carregar grandes cargas",
+      "É um veículo terrestre"
+    ],
+    "categories": [
+      "veículo",
+      "automóvel"
+    ]
+  },
+  {
+    "id": 3,
+    "word": "Navio",
+    "tips": [
+      "Não possui rodas",
+      "É um veículo aquático"
+    ],
+    "categories": [
+      "veículo",
+      "automóvel"
+    ]
+  },
+  {
+    "id": 4,
+    "word": "Motor",
+    "tips": [
+      "Funciona com eletricidade",
+      "Pode gerar ou consumir energia",
+      "Peça automotiva"
+    ],
+    "categories": [
+      "carro",
+      "eletricidade",
+      "engenharia"
+    ]
+  },
+  {
+    "id": 5,
+    "word": "Porta",
+    "tips": [
+      "Presente nas casas e veículos",
+      "Serve para entrar e sair"
+    ],
+    "categories": [
+      "casa",
+      "carro"
+    ]
+  },
+  {
+    "id": 6,
+    "word": "Pneu",
+    "tips": [
+      "Presente em veículos",
+      "Serve para fazer o veículo se locomover"
+    ],
+    "categories": [
+      "veículos"
+    ]
+  },
+  {
+    "id": 7,
+    "word": "Antena",
+    "tips": [
+      "Pode estar presente em veículos e resisdências",
+      "Os radios possuem este item",
+      "Geralmente as estações de transmissão de rádio possuem grandes equipamentos desse"
+    ],
+    "categories": [
+      "eletrônico"
+    ]
+  },
+
+  {
+    "id": 8,
+    "word": "Celular",
+    "tips": [
+      "Praticamente todos possuem um desses aparelhos",
+      "Possui diversas funcionalidades. Entre elas navegar na internet",
+      "Sensível ao toque"
+    ],
+    "categories": [
+      "eletrônico"
+    ]
+  },
+  {
+    "id": 9,
+    "word": "Câmera",
+    "tips": [
+      "Serve para tirar fotos",
+      "Todos os celulares atualmente possuem este equipamento"
+    ],
+    "categories": [
+      "eletrônico"
+    ]
+  },
+
+  {
+    "id": 10,
     "word": "Pêra",
     "tips": [
       "É uma fruta",
@@ -25,60 +124,14 @@ export const wordsList = [
     ]
   },
   {
-    "id": 3,
-    "word": "Motor",
-    "tips": [
-      "Funciona com eletricidade",
-      "Pode gerar ou consumir energia",
-      "Peça automotiva"
-    ],
-    "categories": [
-      "carro",
-      "eletricidade"
-    ]
-  },
-  {
-    "id": 4,
-    "word": "Porta",
-    "tips": [
-      "Presente nas casas e veículos",
-      "Serve para entrar e sair"
-    ],
-    "categories": [
-      "casa",
-      "carro"
-    ]
-  },
-  {
-    "id": 5,
-    "word": "Pneu",
-    "tips": [
-      "Presente em veículos",
-      "Serve para locomover-se"
-    ],
-    "categories": [
-      "veículos"
-    ]
-  },
-  {
-    "id": 6,
-    "word": "Antena",
-    "tips": [
-      "Pode estar presente em veículos e resisdências",
-      "Os radios possuem este item"
-    ],
-    "categories": [
-      "eletrônico"
-    ]
-  },
-  {
-    "id": 7,
+    "id": 11,
     "word": "Banana",
     "tips": [
       "É vendido nos super-mercados",
       "É uma fruta",
       "Nasce nas árvores",
-      "Muito rico em potácio"
+      "Muito rico em potácio",
+      "Tem a cor amarela"
     ],
     "categories": [
       "fruta",
@@ -86,12 +139,13 @@ export const wordsList = [
     ]
   },
   {
-    "id": 8,
+    "id": 12,
     "word": "Mamão",
     "tips": [
       "É vendido nos super-mercados",
       "É uma fruta",
-      "Nasce nas árvores"
+      "Nasce nas árvores",
+      "Geralmente possui uma cor alaranjada"
     ],
     "categories": [
       "fruta",
@@ -99,7 +153,7 @@ export const wordsList = [
     ]
   },
   {
-    "id": 9,
+    "id": 13,
     "word": "Laranja",
     "tips": [
       "É vendido nos super-mercados",
@@ -114,29 +168,31 @@ export const wordsList = [
   },
 
   {
-    "id": 10,
+    "id": 14,
     "word": "Braço",
     "tips": [
       "Faz parte do corpo humano",
-      "Ajuda na mobilidade do corpo"
+      "Ajuda na mobilidade do corpo",
+      "Localiza-se na parte superior do corpo"
     ],
     "categories": [
       "corpo"
     ]
   },
   {
-    "id": 11,
+    "id": 15,
     "word": "Perna",
     "tips": [
       "Faz parte do corpo humano",
-      "Ajuda na mobilidade do corpo"
+      "Ajuda na mobilidade do corpo",
+      "Localiza-se na parte inferior do corpo"
     ],
     "categories": [
       "corpo"
     ]
   },
   {
-    "id": 12,
+    "id": 16,
     "word": "Cérebro",
     "tips": [
       "A maioria dos seres vivos possuem",
@@ -149,7 +205,7 @@ export const wordsList = [
     ]
   },
   {
-    "id": 13,
+    "id": 17,
     "word": "Olhos",
     "tips": [
       "Responsável pela visão",
@@ -163,7 +219,7 @@ export const wordsList = [
   },
 
   {
-    "id": 14,
+    "id": 18,
     "word": "Mouse",
     "tips": [
       "Equipamento eletrônico",
@@ -172,11 +228,12 @@ export const wordsList = [
     ],
     "categories": [
       "computador",
-      "eletrônico"
+      "eletrônico",
+      "periférico"
     ]
   },
   {
-    "id": 15,
+    "id": 19,
     "word": "Teclado",
     "tips": [
       "Equipamento eletrônico",
@@ -186,11 +243,12 @@ export const wordsList = [
     "categories": [
       "computador",
       "eletrônico",
-      "digitação"
+      "digitação",
+      "periférico"
     ]
   },
   {
-    "id": 16,
+    "id": 20,
     "word": "Monitor",
     "tips": [
       "Equipamento eletrônico",
@@ -199,50 +257,47 @@ export const wordsList = [
     ],
     "categories": [
       "computador",
-      "eletrônico"
+      "eletrônico",
+      "periférico"
     ]
   },
 
   {
-    "id": 17,
+    "id": 21,
     "word": "JavaScript",
     "tips": [
       "É uma linguagem de programação",
       "Foi criada para navegadores"
     ],
     "categories": [
-      "computador",
       "programação"
     ]
   },
   {
-    "id": 18,
+    "id": 22,
     "word": "React",
     "tips": [
       "É um framework de uma linguagem de programação",
       "Desenvolvido pelo time do Facebook"
     ],
     "categories": [
-      "computador",
       "programação"
     ]
   },
   {
-    "id": 19,
+    "id": 23,
     "word": "PHP",
     "tips": [
       "É uma linguagem de programação",
       "Seu símbolo é um elefante"
     ],
     "categories": [
-      "computador",
-      "programação",
-      "linguagem"
+      "programação"
     ]
   },
 
   {
-    "id": 20,
+    "id": 24,
     "word": "Arroz",
     "tips": [
       "É um alimento em grãos",
@@ -254,7 +309,7 @@ export const wordsList = [
     ]
   },
   {
-    "id": 21,
+    "id": 25,
     "word": "Feijão",
     "tips": [
       "É um alimento em grãos",
@@ -266,7 +321,7 @@ export const wordsList = [
     ]
   },
   {
-    "id": 22,
+    "id": 26,
     "word": "Ovo",
     "tips": [
       "Rico em proteínas",
@@ -275,6 +330,19 @@ export const wordsList = [
     ],
     "categories": [
       "alimento"
+    ]
+  },
+
+  {
+    "id": 27,
+    "word": "Violão",
+    "tips": [
+      "Feito de madeira",
+      "Instrumento musical",
+      "Toca-se com uma palheta"
+    ],
+    "categories": [
+      "música"
     ]
   }
 ];
