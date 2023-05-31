@@ -1,16 +1,14 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
 
 import { ScoreContext } from '../../contexts/ScoreContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 import { wordsList } from '../../data/words';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
-
-import { toast } from 'react-toastify'
 
 import styles from './styles.module.css';
 
@@ -29,6 +27,8 @@ const Game = () => {
 
   const [hasSkipedWord, setHasSkipedWord] = useState(false);
   const [hasShowedRandomLetter, setHasShowedRandomLetter] = useState(false);
+  const [countScoreToEnableRandomLetterHelp, setCountScoreToEnableRandomLetterHelp] = useState(0);
+  const [countScoreToEnableSkipHelp, setCountScoreToEnableSkipHelp] = useState(0);
 
   const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState('');
@@ -145,10 +145,6 @@ const Game = () => {
     }
   }
 
-  const enableHelpers = () => {
-    //
-  }
-
   useEffect(() => {
     if (guesses <= 0) {
       clearLetterStates();
@@ -164,10 +160,28 @@ const Game = () => {
       setScore((actualScore) => (actualScore += 100));
       setGuesses(guessesQty);
       setTimeout(() => {
+        if (hasShowedRandomLetter) {
+          setCountScoreToEnableRandomLetterHelp((actualScore) => (actualScore += 100));
+        }
+        if (hasSkipedWord) {
+          setCountScoreToEnableSkipHelp((actualScore) => (actualScore += 100));
+        }
         startGame();
       }, 1500);
     }
-  }, [guessedLetters, letters, startGame, setScore]);
+  }, [guessedLetters, letters, startGame, setScore, hasShowedRandomLetter, hasSkipedWord]);
+
+  useEffect(() => {
+    if (Number.isInteger(countScoreToEnableRandomLetterHelp / 300)) {
+      setHasShowedRandomLetter(false);
+      showRandomWordLettersButtonRef.current.removeAttribute('disabled');
+    }
+
+    if (Number.isInteger(countScoreToEnableSkipHelp / 1000)) {
+      setHasSkipedWord(false);
+      skipWordButtonRef.current.removeAttribute('disabled');
+    }
+  }, [countScoreToEnableRandomLetterHelp, countScoreToEnableSkipHelp]);
 
   useEffect(() => {
     const initializeGame = () => {
