@@ -1,7 +1,10 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+
 import { ScoreContext } from '../../contexts/ScoreContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
+
 import { wordsList } from '../../data/words';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,6 +28,7 @@ const Game = () => {
   const skipWordButtonRef = useRef(null);
 
   const [hasSkipedWord, setHasSkipedWord] = useState(false);
+  const [hasShowedRandomLetter, setHasShowedRandomLetter] = useState(false);
 
   const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState('');
@@ -34,7 +38,7 @@ const Game = () => {
   const [wrongLetters, setWrongLetters] = useState([]);
   const [guesses, setGuesses] = useState(guessesQty);
   const [letter, setLetter] = useState('');
-  const [wordTip, setWordTip] = useState([]);
+  const [wordTips, setWordTips] = useState([]);
 
   const pickWordAndCategory = useCallback(() => {
     const item = words[Math.floor(Math.random() * words.length)];
@@ -48,11 +52,12 @@ const Game = () => {
 
   const startGame = useCallback(() => {
     clearLetterStates();
+    toast.dismiss();
 
     const { word, category, tips } = pickWordAndCategory();
     setPickedWord(word);
     setPickedCategory(category);
-    setWordTip(tips[Math.floor(Math.random() * tips.length)]);
+    setWordTips(tips);
 
     let wordLetters = word.split('');
     wordLetters = wordLetters.map((l) => l.toLowerCase());
@@ -110,13 +115,26 @@ const Game = () => {
   }
 
   const handleShowRandomWordTip = () => {
-    toast.info(wordTip, {
+    const randomTip = wordTips[Math.floor(Math.random() * wordTips.length)];
+    toast.info(randomTip, {
       position: 'top-center',
       toastId: 'help-tip'
     });
   }
 
-  const handleShowRandomWordLetters = () => {}
+  const handleShowRandomWordLetters = () => {
+    if (!hasShowedRandomLetter) {
+      const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
+      const uniqueLetters = [...new Set(wordNormalizedLetters)];
+  
+      const filteredLetters = uniqueLetters.filter(letter => !guessedLetters.includes(letter));
+      const randomLetter = filteredLetters[Math.floor(Math.random() * filteredLetters.length)];
+      verifyLetter(randomLetter);
+      showRandomWordLettersButtonRef.current.setAttribute("disabled", true);
+      setHasShowedRandomLetter(true);
+      setScore((actualScore) => actualScore - 50 < 0 ? 0 : actualScore - 50);
+    }
+  }
 
   const handleSkipWord = () => {
     if (!hasSkipedWord) {
@@ -125,6 +143,10 @@ const Game = () => {
       setHasSkipedWord(true);
       setScore((actualScore) => actualScore - 200 < 0 ? 0 : actualScore - 200);
     }
+  }
+
+  const enableHelpers = () => {
+    //
   }
 
   useEffect(() => {
@@ -200,29 +222,71 @@ const Game = () => {
         </div>
 
         <div className={`${styles.helpersContainer}`}>
-          <h4 className="mb-4">Ajudas <FontAwesomeIcon icon={faCircleInfo} /></h4>
+          <h4 className="mb-4">Ajudas&nbsp;
+            <OverlayTrigger
+              placement="right"
+              overlay={
+                <Tooltip>
+                  Vocẽ pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.
+                </Tooltip>
+              }
+            >
+              <FontAwesomeIcon icon={faCircleInfo} />
+            </OverlayTrigger>
+          </h4>
           <div className="d-flex justify-content-center align-item-center gap-4">
-            <button
-              className="btn btn-outline-warning rounded align-top fs-3"
-              onClick={handleShowRandomWordTip}
-              ref={showRandomWordTipButtonRef}
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip>
+                  Mostra uma dica aleatória sobre palavra. Não consome pontuação.
+                </Tooltip>
+              }
             >
-              <FontAwesomeIcon icon={faCircleQuestion} />
-            </button>
-            <button
-              className="btn btn-outline-danger rounded fs-3"
-              onClick={handleShowRandomWordLetters}
-              ref={showRandomWordLettersButtonRef}
+              <button
+                className="btn btn-outline-warning rounded align-top fs-3"
+                onClick={handleShowRandomWordTip}
+                ref={showRandomWordTipButtonRef}
+              >
+                <FontAwesomeIcon icon={faCircleQuestion} />
+              </button>
+            </OverlayTrigger>
+
+
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip>
+                  Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
+                </Tooltip>
+              }
             >
-              <FontAwesomeIcon icon={faEye} />
-            </button>
-            <button
-              className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}
-              onClick={handleSkipWord}
-              ref={skipWordButtonRef}
+              <button
+                className="btn btn-outline-danger rounded fs-3"
+                onClick={handleShowRandomWordLetters}
+                ref={showRandomWordLettersButtonRef}
+              >
+                <FontAwesomeIcon icon={faEye} />
+              </button>
+            </OverlayTrigger>
+
+
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip>
+                  Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
+                </Tooltip>
+              }
             >
-              <FontAwesomeIcon icon={faForward} />
-            </button>
+              <button
+                className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}
+                onClick={handleSkipWord}
+                ref={skipWordButtonRef}
+              >
+                <FontAwesomeIcon icon={faForward} />
+              </button>
+            </OverlayTrigger>
           </div>
         </div>
       </div>
