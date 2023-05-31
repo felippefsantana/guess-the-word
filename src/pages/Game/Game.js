@@ -1,6 +1,15 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo, faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
+
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+
 import { ScoreContext } from '../../contexts/ScoreContext';
+import { ThemeContext } from '../../contexts/ThemeContext';
+
 import { wordsList } from '../../data/words';
 
 import styles from './styles.module.css';
@@ -8,11 +17,28 @@ import styles from './styles.module.css';
 const guessesQty = 5;
 
 const Game = () => {
+  // Contexts
   const { score, setScore } = useContext(ScoreContext);
+  const { theme } = useContext(ThemeContext);
 
+  // Hook useNavigate
   const navigate = useNavigate();
-  
+
+  // Framer Motio lib
+  const count = useMotionValue(score);
+  const rounded = useTransform(count, latest => Math.round(latest));
+
+  // References
   const letterInputRef = useRef(null);
+  const showRandomWordTipButtonRef = useRef(null);
+  const showRandomWordLettersButtonRef = useRef(null);
+  const skipWordButtonRef = useRef(null);
+
+  // States
+  const [hasSkipedWord, setHasSkipedWord] = useState(false);
+  const [hasShowedRandomLetter, setHasShowedRandomLetter] = useState(false);
+  const [countScoreToEnableRandomLetterHelp, setCountScoreToEnableRandomLetterHelp] = useState(0);
+  const [countScoreToEnableSkipHelp, setCountScoreToEnableSkipHelp] = useState(0);
 
   const [words] = useState(wordsList);
   const [pickedWord, setPickedWord] = useState('');
@@ -22,7 +48,7 @@ const Game = () => {
   const [wrongLetters, setWrongLetters] = useState([]);
   const [guesses, setGuesses] = useState(guessesQty);
   const [letter, setLetter] = useState('');
-  const [tips, setTips] = useState([]);
+  const [wordTips, setWordTips] = useState([]);
 
   const pickWordAndCategory = useCallback(() => {
     const item = words[Math.floor(Math.random() * words.length)];
@@ -36,11 +62,12 @@ const Game = () => {
 
   const startGame = useCallback(() => {
     clearLetterStates();
+    toast.dismiss();
 
     const { word, category, tips } = pickWordAndCategory();
     setPickedWord(word);
     setPickedCategory(category);
-    setTips(tips);
+    setWordTips(tips);
 
     let wordLetters = word.split('');
     wordLetters = wordLetters.map((l) => l.toLowerCase());
@@ -53,8 +80,9 @@ const Game = () => {
     const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
 
     if (
-      !normalizedLetter 
-      || guessedLetters.includes(normalizedLetter) 
+      !normalizedLetter
+      || !isLetter(normalizedLetter)
+      || guessedLetters.includes(normalizedLetter)
       || wrongLetters.includes(normalizedLetter)
     ) return;
 
@@ -71,6 +99,10 @@ const Game = () => {
 
       setGuesses((actualGuesses) => actualGuesses - 1);
     }
+  }
+
+  const isLetter = (letter) => {
+    return /[a-z]/i.test(letter);
   }
 
   const normalizeLetter = (letter) => {
@@ -92,6 +124,37 @@ const Game = () => {
     letterInputRef.current.focus();
   }
 
+  const handleShowRandomWordTip = () => {
+    const randomTip = wordTips[Math.floor(Math.random() * wordTips.length)];
+    toast.info(randomTip, {
+      position: 'top-center',
+      toastId: 'help-tip'
+    });
+  }
+
+  const handleShowRandomWordLetters = () => {
+    if (!hasShowedRandomLetter) {
+      const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
+      const uniqueLetters = [...new Set(wordNormalizedLetters)];
+  
+      const filteredLetters = uniqueLetters.filter(letter => !guessedLetters.includes(letter));
+      const randomLetter = filteredLetters[Math.floor(Math.random() * filteredLetters.length)];
+      verifyLetter(randomLetter);
+      showRandomWordLettersButtonRef.current.setAttribute("disabled", true);
+      setHasShowedRandomLetter(true);
+      setScore((actualScore) => actualScore - 50 < 0 ? 0 : actualScore - 50);
+    }
+  }
+
+  const handleSkipWord = () => {
+    if (!hasSkipedWord) {
+      startGame();
+      skipWordButtonRef.current.setAttribute("disabled", true);
+      setHasSkipedWord(true);
+      setScore((actualScore) => actualScore - 200 < 0 ? 0 : actualScore - 200);
+    }
+  }
+
   useEffect(() => {
     if (guesses <= 0) {
       clearLetterStates();
@@ -100,16 +163,35 @@ const Game = () => {
   }, [guesses, navigate]);
 
   useEffect(() => {
-    const uniqueLetters = [...new Set(letters)];
+    const wordNormalizedLetters = letters.map(letter => normalizeLetter(letter));
+    const uniqueLetters = [...new Set(wordNormalizedLetters)];
 
     if (uniqueLetters.length && guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => (actualScore += 100));
       setGuesses(guessesQty);
       setTimeout(() => {
+        if (hasShowedRandomLetter) {
+          setCountScoreToEnableRandomLetterHelp((actualScore) => (actualScore += 100));
+        }
+        if (hasSkipedWord) {
+          setCountScoreToEnableSkipHelp((actualScore) => (actualScore += 100));
+        }
         startGame();
       }, 1500);
     }
-  }, [guessedLetters, letters, startGame, setScore]);
+  }, [guessedLetters, letters, startGame, setScore, hasShowedRandomLetter, hasSkipedWord]);
+
+  useEffect(() => {
+    if (Number.isInteger(countScoreToEnableRandomLetterHelp / 300)) {
+      setHasShowedRandomLetter(false);
+      showRandomWordLettersButtonRef.current.removeAttribute('disabled');
+    }
+
+    if (Number.isInteger(countScoreToEnableSkipHelp / 1000)) {
+      setHasSkipedWord(false);
+      skipWordButtonRef.current.removeAttribute('disabled');
+    }
+  }, [countScoreToEnableRandomLetterHelp, countScoreToEnableSkipHelp]);
 
   useEffect(() => {
     const initializeGame = () => {
@@ -119,10 +201,16 @@ const Game = () => {
     initializeGame();
   }, [startGame]);
 
+  useEffect(() => {
+    const controls = animate(count, score);
+
+    return controls.stop;
+  }, [count, score]);
+
   return (
     <div className={`${styles.game} d-flex justify-content-center align-items-center`}>
       <div className="text-center">
-        <p className={styles.points}>Pontuação: <span className="text-success"><b>{score}</b></span></p>
+        <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
         <h1>Adivinhe a palavra:</h1>
         <h3 className={styles.tip}>
           Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
@@ -156,11 +244,80 @@ const Game = () => {
           </form>
         </div>
 
-        <div className={styles.wrongLetterContainer}>
+        <div className={`${styles.wrongLetterContainer} mb-5`}>
           <p>Letras já utilizadas:</p>
           {wrongLetters.map((letter, i) => (
             <span key={i}>{letter}, </span>
           ))}
+        </div>
+
+        <div className={`${styles.helpersContainer}`}>
+          <h4 className="mb-4">Ajudas&nbsp;
+            <OverlayTrigger
+              placement="right"
+              overlay={
+                <Tooltip style={{position:"fixed"}}>
+                  Vocẽ pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.
+                </Tooltip>
+              }
+            >
+              <FontAwesomeIcon icon={faCircleInfo} />
+            </OverlayTrigger>
+          </h4>
+          <div className="d-flex justify-content-center align-item-center gap-4">
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip style={{position:"fixed"}}>
+                  Mostra uma dica aleatória sobre palavra. Não consome pontuação.
+                </Tooltip>
+              }
+            >
+              <button
+                className="btn btn-outline-warning rounded align-top fs-3"
+                onClick={handleShowRandomWordTip}
+                ref={showRandomWordTipButtonRef}
+              >
+                <FontAwesomeIcon icon={faCircleQuestion} />
+              </button>
+            </OverlayTrigger>
+
+
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip style={{position:"fixed"}}>
+                  Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
+                </Tooltip>
+              }
+            >
+              <button
+                className="btn btn-outline-danger rounded fs-3"
+                onClick={handleShowRandomWordLetters}
+                ref={showRandomWordLettersButtonRef}
+              >
+                <FontAwesomeIcon icon={faEye} />
+              </button>
+            </OverlayTrigger>
+
+
+            <OverlayTrigger
+              placement="bottom"
+              overlay={
+                <Tooltip style={{position:"fixed"}}>
+                  Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
+                </Tooltip>
+              }
+            >
+              <button
+                className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}
+                onClick={handleSkipWord}
+                ref={skipWordButtonRef}
+              >
+                <FontAwesomeIcon icon={faForward} />
+              </button>
+            </OverlayTrigger>
+          </div>
         </div>
       </div>
     </div>
