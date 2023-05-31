@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
 
+import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
+
 import { ScoreContext } from '../../contexts/ScoreContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
@@ -15,16 +17,24 @@ import styles from './styles.module.css';
 const guessesQty = 5;
 
 const Game = () => {
+  // Contexts
   const { score, setScore } = useContext(ScoreContext);
   const { theme } = useContext(ThemeContext);
 
+  // Hook useNavigate
   const navigate = useNavigate();
-  
+
+  // Framer Motio lib
+  const count = useMotionValue(score);
+  const rounded = useTransform(count, latest => Math.round(latest));
+
+  // References
   const letterInputRef = useRef(null);
   const showRandomWordTipButtonRef = useRef(null);
   const showRandomWordLettersButtonRef = useRef(null);
   const skipWordButtonRef = useRef(null);
 
+  // States
   const [hasSkipedWord, setHasSkipedWord] = useState(false);
   const [hasShowedRandomLetter, setHasShowedRandomLetter] = useState(false);
   const [countScoreToEnableRandomLetterHelp, setCountScoreToEnableRandomLetterHelp] = useState(0);
@@ -191,10 +201,16 @@ const Game = () => {
     initializeGame();
   }, [startGame]);
 
+  useEffect(() => {
+    const controls = animate(count, score);
+
+    return controls.stop;
+  }, [count, score]);
+
   return (
     <div className={`${styles.game} d-flex justify-content-center align-items-center`}>
       <div className="text-center">
-        <p className={styles.points}>Pontuação: <span className="text-success"><b>{score}</b></span></p>
+        <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
         <h1>Adivinhe a palavra:</h1>
         <h3 className={styles.tip}>
           Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
@@ -240,7 +256,7 @@ const Game = () => {
             <OverlayTrigger
               placement="right"
               overlay={
-                <Tooltip>
+                <Tooltip style={{position:"fixed"}}>
                   Vocẽ pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.
                 </Tooltip>
               }
@@ -252,7 +268,7 @@ const Game = () => {
             <OverlayTrigger
               placement="bottom"
               overlay={
-                <Tooltip>
+                <Tooltip style={{position:"fixed"}}>
                   Mostra uma dica aleatória sobre palavra. Não consome pontuação.
                 </Tooltip>
               }
@@ -270,7 +286,7 @@ const Game = () => {
             <OverlayTrigger
               placement="bottom"
               overlay={
-                <Tooltip>
+                <Tooltip style={{position:"fixed"}}>
                   Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
                 </Tooltip>
               }
@@ -288,7 +304,7 @@ const Game = () => {
             <OverlayTrigger
               placement="bottom"
               overlay={
-                <Tooltip>
+                <Tooltip style={{position:"fixed"}}>
                   Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
                 </Tooltip>
               }
