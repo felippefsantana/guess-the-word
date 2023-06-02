@@ -24,7 +24,7 @@ const Game = () => {
   // Hook useNavigate
   const navigate = useNavigate();
 
-  // Framer Motio lib
+  // Framer Motion lib
   const count = useMotionValue(score);
   const rounded = useTransform(count, latest => Math.round(latest));
 
