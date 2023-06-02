@@ -14,11 +14,11 @@ import { ThemeContextProvider } from './contexts/ThemeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // <React.StrictMode>
-    <ThemeContextProvider>
+  <ThemeContextProvider>
+    {/* <React.StrictMode> */}
       <App />
-    </ThemeContextProvider>
-  // </React.StrictMode>
+    {/* </React.StrictMode> */}
+  </ThemeContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
