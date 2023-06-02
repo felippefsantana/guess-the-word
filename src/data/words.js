@@ -344,5 +344,160 @@ export const wordsList = [
     "categories": [
       "música"
     ]
-  }
+  },
+  {
+    "id": 28,
+    "word": "Piano",
+    "tips": [
+      "Possui teclas",
+      "Instrumento musical",
+      "Pode ou não ter calda"
+    ],
+    "categories": [
+      "música"
+    ]
+  },
+  {
+    "id": 29,
+    "word": "Bateria",
+    "tips": [
+      "Instrumento musical",
+      "Toca-se com baquetas"
+    ],
+    "categories": [
+      "música"
+    ]
+  },
+
+  {
+    "id": 30,
+    "word": "Leite",
+    "tips": [
+      "Possui cor branca",
+      "Rico em cálcio",
+      "Tirado de vacas"
+    ],
+    "categories": [
+      "bebida"
+    ]
+  },
+  {
+    "id": 31,
+    "word": "Pão",
+    "tips": [
+      "Feito de farinha de trigo",
+      "Pode ser francês, sovado ou bola"
+    ],
+    "categories": [
+      "comida"
+    ]
+  },
+
+  {
+    "id": 32,
+    "word": "Gato",
+    "tips": [
+      "Animal de estimação",
+      "Tem como som o miado",
+      "Tem fama de ser preguiçoso e dorminhoco"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+  {
+    "id": 33,
+    "word": "Cachorro",
+    "tips": [
+      "Animal de estimação",
+      "Tem como som o latido",
+      "Considerado o melhor amigo do homem"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+  {
+    "id": 34,
+    "word": "Ornitorrinco",
+    "tips": [
+      "Mamífero semiaquático",
+      "Põe ovos",
+      "Vive na Austrália e na Tasmânia",
+      "Aparenta ter bico de pato",
+      "É um anfíbeo"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+  {
+    "id": 35,
+    "word": "Pato",
+    "tips": [
+      "Ave que anda, nada e voa",
+      "O personagem de animações Patolino pertence a essa espécie de animal"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+  {
+    "id": 36,
+    "word": "Urso",
+    "tips": [
+      "Animal grande e peludo",
+      "Pode ser pardo, branco, etc",
+      "Possuem seis dedos"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+  {
+    "id": 37,
+    "word": "Peixe",
+    "tips": [
+      "Animal aquático"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+  {
+    "id": 38,
+    "word": "Sapo",
+    "tips": [
+      "É um anfíbio",
+      "Comum em rios e lagos",
+      "Seu som é o coaxado"
+    ],
+    "categories": [
+      "animal"
+    ]
+  },
+
+  {
+    "id": 39,
+    "word": "Notebook",
+    "tips": [
+      "Compacto e portátil",
+      "Conhecido como computador de colo"
+    ],
+    "categories": [
+      "computador"
+    ]
+  },
+
+  {
+    "id": 40,
+    "word": "Cenoura",
+    "tips": [
+      "Os coelhos adoram comer este vegetal",
+      "Possui cor laranja"
+    ],
+    "categories": [
+      "vegetal"
+    ]
+  },
 ];
