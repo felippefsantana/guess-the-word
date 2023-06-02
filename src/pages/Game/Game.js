@@ -207,9 +207,17 @@ const Game = () => {
     return controls.stop;
   }, [count, score]);
 
+  const previousPickedWordRef = useRef('');
+
+  useEffect(() => {
+    previousPickedWordRef.current = pickedWord;
+  }, [pickedWord]);
+
   return (
     <div className={`${styles.game} d-flex justify-content-center align-items-center`}>
       <div className="text-center">
+        {'Actual word' + pickedWord}<br />
+        {'Prev word' + previousPickedWordRef.current}<br />
         <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
         <h1>Adivinhe a palavra:</h1>
         <h3 className={styles.tip}>
