@@ -220,9 +220,9 @@ const Game = () => {
         <div className={`${styles.wordContainer} d-flex justify-content-center flex-wrap m-3 p-3`}>
           {letters.map((letter, i) => (
             guessedLetters.includes(normalizeLetter(letter)) ? (
-              <span key={i} className={`${styles.letter} fs-1 border rounded`}>{letter}</span>
+              <span key={i} className={`${styles.letter} fs-1 border rounded border border-secondary`}>{letter}</span>
             ) : (
-              <span key={i} className={`${styles.blankSquare} fs-1 border rounded`}></span>
+              <span key={i} className={`${styles.blankSquare} fs-1 border rounded border border-secondary`}></span>
             )
           ))}
         </div>
@@ -233,7 +233,7 @@ const Game = () => {
             <input 
               type="text"
               name="letter"
-              className={`${styles.letter} form-control text-center fs-1 border rounded me-3`}
+              className={`${styles.letter} form-control text-center fs-1 border border-secondary rounded me-3`}
               maxLength="1"
               autoComplete="off"
               onChange={(e) => setLetter(e.target.value)}
