@@ -113,6 +113,7 @@ const Game = () => {
   const clearLetterStates = () => {
     setGuessedLetters([]);
     setWrongLetters([]);
+    setGuesses(guessesQty);
   }
 
   const handleSubmit = (e) => {
@@ -168,7 +169,6 @@ const Game = () => {
 
     if (uniqueLetters.length && guessedLetters.length === uniqueLetters.length) {
       setScore((actualScore) => (actualScore += 100));
-      setGuesses(guessesQty);
       setTimeout(() => {
         if (hasShowedRandomLetter) {
           setCountScoreToEnableRandomLetterHelp((actualScore) => (actualScore += 100));
