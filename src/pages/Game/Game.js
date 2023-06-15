@@ -158,6 +158,19 @@ const Game = () => {
     }
   }
 
+  // const handleKeyDownEvent = useCallback((e) => {
+  //   if ((e.keyCode >= 65 && e.keyCode <= 90) || e.keyCode === 186) {
+  //     setLetter(e.key);
+  //   }
+  //   if (e.keyCode === 13) {
+  //     handleSubmit();
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   document.addEventListener('keydown', handleKeyDownEvent, true);
+  // }, [handleKeyDownEvent]);
+
   useEffect(() => {
     if (guesses <= 0) {
       clearLetterStates();
@@ -322,7 +335,7 @@ const Game = () => {
           ))}
         </div>
 
-        <Keyboard letter={normalizeLetter(letter)} setLetter={setLetter} handleSubmit={handleSubmit} />
+        <Keyboard setLetter={setLetter} handleSubmit={handleSubmit} />
       </div>
     </div>
   )

@@ -3,8 +3,7 @@ import { faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
 
 import styles from './styles.module.css';
 
-const Keyboard = ({ letter, setLetter, handleSubmit }) => {
-
+const Keyboard = ({ setLetter, handleSubmit }) => {
   return (
     <div className={`${styles.keyboardContainer}`}>
       <div className="d-flex no-wrap justify-content-center">
