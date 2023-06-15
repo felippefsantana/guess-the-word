@@ -12,6 +12,8 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 
 import { wordsList } from '../../data/words';
 
+import Keyboard from '../../components/Keyboard/Keyboard';
+
 import styles from './styles.module.css';
 
 const guessesQty = 5;
@@ -208,50 +210,9 @@ const Game = () => {
   }, [count, score]);
 
   return (
-    <div className={`${styles.game} d-flex justify-content-center align-items-center`}>
+    <div className={`${styles.game} d-flex justify-content-center align-items-center py-5`}>
       <div className="text-center">
-        <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
-        <h1>Adivinhe a palavra:</h1>
-        <h3 className={styles.tip}>
-          Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
-        </h3>
-        <p>Você ainda tem <span className="text-warning"><b>{ guesses }</b></span> tentativa(s).</p>
-
-        <div className={`${styles.wordContainer} d-flex justify-content-center flex-wrap m-3 p-3`}>
-          {letters.map((letter, i) => (
-            guessedLetters.includes(normalizeLetter(letter)) ? (
-              <span key={i} className={`${styles.letter} fs-1 border rounded border border-secondary`}>{letter}</span>
-            ) : (
-              <span key={i} className={`${styles.blankSquare} fs-1 border rounded border border-secondary`}></span>
-            )
-          ))}
-        </div>
-
-        <div className={`${styles.letterContainer} mb-3`}>
-          <p>Tente adivinhar uma letra da palavra:</p>
-          <form className="d-flex justify-content-center align-items-center" onSubmit={handleSubmit}>
-            <input 
-              type="text"
-              name="letter"
-              className={`${styles.letter} form-control text-center fs-1 border border-secondary rounded me-3`}
-              maxLength="1"
-              autoComplete="off"
-              onChange={(e) => setLetter(e.target.value)}
-              value={letter}
-              ref={letterInputRef}
-            />
-            <button className="btn btn-success rounded-pill fs-3 px-5">Jogar!</button>
-          </form>
-        </div>
-
-        <div className={`${styles.wrongLetterContainer} mb-5`}>
-          <p>Letras já utilizadas:</p>
-          {wrongLetters.map((letter, i) => (
-            <span key={i}>{letter}, </span>
-          ))}
-        </div>
-
-        <div className={`${styles.helpersContainer}`}>
+        <div className={`${styles.helpersContainer} mb-5`}>
           <h4 className="mb-4">Ajudas&nbsp;
             <OverlayTrigger
               placement="right"
@@ -319,6 +280,49 @@ const Game = () => {
             </OverlayTrigger>
           </div>
         </div>
+
+        <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
+        <h1>Adivinhe a palavra:</h1>
+        <h3 className={styles.tip}>
+          Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
+        </h3>
+        <p>Você ainda tem <span className="text-warning"><b>{ guesses }</b></span> tentativa(s).</p>
+
+        <div className={`${styles.wordContainer} d-flex justify-content-center flex-wrap m-3 p-3`}>
+          {letters.map((letter, i) => (
+            guessedLetters.includes(normalizeLetter(letter)) ? (
+              <span key={i} className={`${styles.letter} fs-1 border rounded border border-secondary`}>{letter}</span>
+            ) : (
+              <span key={i} className={`${styles.blankSquare} fs-1 border rounded border border-secondary`}></span>
+            )
+          ))}
+        </div>
+
+        <div className={`${styles.letterContainer} mb-3`}>
+          <p>Tente adivinhar uma letra da palavra:</p>
+          <form className="d-flex justify-content-center align-items-center" onSubmit={handleSubmit}>
+            <input 
+              type="text"
+              name="letter"
+              className={`${styles.letter} form-control text-center fs-1 border border-secondary rounded me-3`}
+              maxLength="1"
+              autoComplete="off"
+              onChange={(e) => setLetter(e.target.value)}
+              value={letter}
+              ref={letterInputRef}
+            />
+            <button className="btn btn-success rounded-pill fs-3 px-5">Jogar!</button>
+          </form>
+        </div>
+
+        <div className={`${styles.wrongLetterContainer} mb-5`}>
+          <p>Letras já utilizadas:</p>
+          {wrongLetters.map((letter, i) => (
+            <span key={i}>{letter}, </span>
+          ))}
+        </div>
+
+        <Keyboard letter={normalizeLetter(letter)} setLetter={setLetter} handleSubmit={handleSubmit} />
       </div>
     </div>
   )

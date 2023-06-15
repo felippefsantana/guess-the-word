@@ -1,5 +1,6 @@
 .game {
-  height: 100vh;
+  min-height: 100vh;
+  overflow-y: auto;
 }
 
 .tip {
@@ -18,7 +19,7 @@
   /*  */
 }
 
-.helperContainer {
+.helpersContainer {
   /*  */
 }
 
