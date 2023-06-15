@@ -1,6 +1,6 @@
 .game {
   min-height: 100vh;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .tip {

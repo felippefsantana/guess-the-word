@@ -301,12 +301,22 @@ const Game = () => {
         </h3>
         <p>Você ainda tem <span className="text-warning"><b>{ guesses }</b></span> tentativa(s).</p>
 
-        <div className={`${styles.wordContainer} d-flex justify-content-center flex-wrap m-3 p-3`}>
+        <div className={`${styles.wordContainer} d-flex justify-content-center flex-nowrap m-3 p-3`}>
           {letters.map((letter, i) => (
             guessedLetters.includes(normalizeLetter(letter)) ? (
-              <span key={i} className={`${styles.letter} fs-1 border rounded border border-secondary`}>{letter}</span>
+              <div
+                key={i}
+                className={
+                  `${styles.letter} d-flex justify-content-center align-items-center fs-1 border rounded border border-secondary`
+                }
+              >{letter}</div>
             ) : (
-              <span key={i} className={`${styles.blankSquare} fs-1 border rounded border border-secondary`}></span>
+              <div
+                key={i}
+                className={
+                  `${styles.blankSquare} d-flex justify-content-center align-items-center fs-1 border rounded border border-secondary`
+                }
+              ></div>
             )
           ))}
         </div>
@@ -335,7 +345,7 @@ const Game = () => {
           ))}
         </div>
 
-        <Keyboard setLetter={setLetter} handleSubmit={handleSubmit} />
+        {/* <Keyboard setLetter={setLetter} handleSubmit={handleSubmit} /> */}
       </div>
     </div>
   )

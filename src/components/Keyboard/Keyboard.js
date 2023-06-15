@@ -6,7 +6,7 @@ import styles from './styles.module.css';
 const Keyboard = ({ setLetter, handleSubmit }) => {
   return (
     <div className={`${styles.keyboardContainer}`}>
-      <div className="d-flex no-wrap justify-content-center">
+      <div className="d-flex justify-content-center align-items-center">
         <button onClick={() => setLetter('q')}>Q</button>
         <button onClick={() => setLetter('w')}>W</button>
         <button onClick={() => setLetter('e')}>E</button>

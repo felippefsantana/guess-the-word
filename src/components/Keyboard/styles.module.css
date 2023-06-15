@@ -1,5 +1,6 @@
 .keyboardContainer {
-  /* max-width: 720px; */
+  max-width: 720px;
+  min-width: 300px;
   width: 100%;
   margin: 0 auto;
 }
