@@ -223,130 +223,128 @@ const Game = () => {
   }, [count, score]);
 
   return (
-    <div className={`${styles.game} d-flex justify-content-center align-items-center py-5`}>
-      <div className="text-center">
-        <div className={`${styles.helpersContainer} mb-5`}>
-          <h4 className="mb-4">Ajudas&nbsp;
-            <OverlayTrigger
-              placement="right"
-              overlay={
-                <Tooltip style={{position:"fixed"}}>
-                  Vocẽ pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.
-                </Tooltip>
-              }
+    <div className={`${styles.game} d-flex flex-column justify-content-center align-items-center text-center py-5`}>
+      <div className={`${styles.helpersContainer} mb-5`}>
+        <h4 className="mb-4">Ajudas&nbsp;
+          <OverlayTrigger
+            placement="right"
+            overlay={
+              <Tooltip style={{position:"fixed"}}>
+                Vocẽ pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.
+              </Tooltip>
+            }
+          >
+            <FontAwesomeIcon icon={faCircleInfo} />
+          </OverlayTrigger>
+        </h4>
+        <div className="d-flex justify-content-center align-item-center gap-4">
+          <OverlayTrigger
+            placement="bottom"
+            overlay={
+              <Tooltip style={{position:"fixed"}}>
+                Mostra uma dica aleatória sobre palavra. Não consome pontuação.
+              </Tooltip>
+            }
+          >
+            <button
+              className="btn btn-outline-warning rounded align-top fs-3"
+              onClick={handleShowRandomWordTip}
+              ref={showRandomWordTipButtonRef}
             >
-              <FontAwesomeIcon icon={faCircleInfo} />
-            </OverlayTrigger>
-          </h4>
-          <div className="d-flex justify-content-center align-item-center gap-4">
-            <OverlayTrigger
-              placement="bottom"
-              overlay={
-                <Tooltip style={{position:"fixed"}}>
-                  Mostra uma dica aleatória sobre palavra. Não consome pontuação.
-                </Tooltip>
-              }
+              <FontAwesomeIcon icon={faCircleQuestion} />
+            </button>
+          </OverlayTrigger>
+
+
+          <OverlayTrigger
+            placement="bottom"
+            overlay={
+              <Tooltip style={{position:"fixed"}}>
+                Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
+              </Tooltip>
+            }
+          >
+            <button
+              className="btn btn-outline-danger rounded fs-3"
+              onClick={handleShowRandomWordLetters}
+              ref={showRandomWordLettersButtonRef}
             >
-              <button
-                className="btn btn-outline-warning rounded align-top fs-3"
-                onClick={handleShowRandomWordTip}
-                ref={showRandomWordTipButtonRef}
-              >
-                <FontAwesomeIcon icon={faCircleQuestion} />
-              </button>
-            </OverlayTrigger>
+              <FontAwesomeIcon icon={faEye} />
+            </button>
+          </OverlayTrigger>
 
 
-            <OverlayTrigger
-              placement="bottom"
-              overlay={
-                <Tooltip style={{position:"fixed"}}>
-                  Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
-                </Tooltip>
-              }
+          <OverlayTrigger
+            placement="bottom"
+            overlay={
+              <Tooltip style={{position:"fixed"}}>
+                Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
+              </Tooltip>
+            }
+          >
+            <button
+              className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}
+              onClick={handleSkipWord}
+              ref={skipWordButtonRef}
             >
-              <button
-                className="btn btn-outline-danger rounded fs-3"
-                onClick={handleShowRandomWordLetters}
-                ref={showRandomWordLettersButtonRef}
-              >
-                <FontAwesomeIcon icon={faEye} />
-              </button>
-            </OverlayTrigger>
-
-
-            <OverlayTrigger
-              placement="bottom"
-              overlay={
-                <Tooltip style={{position:"fixed"}}>
-                  Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
-                </Tooltip>
-              }
-            >
-              <button
-                className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3`}
-                onClick={handleSkipWord}
-                ref={skipWordButtonRef}
-              >
-                <FontAwesomeIcon icon={faForward} />
-              </button>
-            </OverlayTrigger>
-          </div>
+              <FontAwesomeIcon icon={faForward} />
+            </button>
+          </OverlayTrigger>
         </div>
-
-        <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
-        <h1>Adivinhe a palavra:</h1>
-        <h3 className={styles.tip}>
-          Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
-        </h3>
-        <p>Você ainda tem <span className="text-warning"><b>{ guesses }</b></span> tentativa(s).</p>
-
-        <div className={`${styles.wordContainer} d-flex justify-content-center flex-nowrap m-3 p-3`}>
-          {letters.map((letter, i) => (
-            guessedLetters.includes(normalizeLetter(letter)) ? (
-              <div
-                key={i}
-                className={
-                  `${styles.letter} d-flex justify-content-center align-items-center fs-1 border rounded border border-secondary`
-                }
-              >{letter}</div>
-            ) : (
-              <div
-                key={i}
-                className={
-                  `${styles.blankSquare} d-flex justify-content-center align-items-center fs-1 border rounded border border-secondary`
-                }
-              ></div>
-            )
-          ))}
-        </div>
-
-        <div className={`${styles.letterContainer} mb-3`}>
-          <p>Tente adivinhar uma letra da palavra:</p>
-          <form className="d-flex justify-content-center align-items-center" onSubmit={handleSubmit}>
-            <input 
-              type="text"
-              name="letter"
-              className={`${styles.letter} form-control text-center fs-1 border border-secondary rounded me-3`}
-              maxLength="1"
-              autoComplete="off"
-              onChange={(e) => setLetter(e.target.value)}
-              value={letter}
-              ref={letterInputRef}
-            />
-            <button className="btn btn-success rounded-pill fs-3 px-5">Jogar!</button>
-          </form>
-        </div>
-
-        <div className={`${styles.wrongLetterContainer} mb-5`}>
-          <p>Letras já utilizadas:</p>
-          {wrongLetters.map((letter, i) => (
-            <span key={i}>{letter}, </span>
-          ))}
-        </div>
-
-        {/* <Keyboard setLetter={setLetter} handleSubmit={handleSubmit} /> */}
       </div>
+
+      <p className={styles.points}>Pontuação: <span className="text-success"><motion.b>{rounded}</motion.b></span></p>
+      <h1>Adivinhe a palavra:</h1>
+      <h3 className={styles.tip}>
+        Dica sobre a palavra: <span><b>{ pickedCategory }</b></span>
+      </h3>
+      <p>Você ainda tem <span className="text-warning"><b>{ guesses }</b></span> tentativa(s).</p>
+
+      <div className={`${styles.wordContainer} d-flex justify-content-center flex-wrap m-3 p-3`}>
+        {letters.map((letter, i) => (
+          guessedLetters.includes(normalizeLetter(letter)) ? (
+            <div
+              key={i}
+              className={
+                `${styles.letter} d-flex justify-content-center align-items-center fs-1 border rounded border border-secondary`
+              }
+            >{letter}</div>
+          ) : (
+            <div
+              key={i}
+              className={
+                `${styles.blankSquare} d-flex justify-content-center align-items-center fs-1 border rounded border border-secondary`
+              }
+            ></div>
+          )
+        ))}
+      </div>
+
+      <div className={`${styles.letterContainer} mb-3`}>
+        <p>Tente adivinhar uma letra da palavra:</p>
+        <form className="d-flex justify-content-center align-items-center" onSubmit={handleSubmit}>
+          <input 
+            type="text"
+            name="letter"
+            className={`${styles.letter} form-control text-center fs-1 border border-secondary rounded me-3`}
+            maxLength="1"
+            autoComplete="off"
+            onChange={(e) => setLetter(e.target.value)}
+            value={letter}
+            ref={letterInputRef}
+          />
+          <button className="btn btn-success rounded-pill fs-3 px-5">Jogar!</button>
+        </form>
+      </div>
+
+      <div className={`${styles.wrongLetterContainer} mb-5`}>
+        <p>Letras já utilizadas:</p>
+        {wrongLetters.map((letter, i) => (
+          <span key={i}>{letter}, </span>
+        ))}
+      </div>
+
+      <Keyboard setLetter={setLetter} handleSubmit={handleSubmit} />
     </div>
   )
 }
