@@ -40,7 +40,7 @@ const Keyboard = ({ setLetter, handleSubmit }) => {
         <button onClick={() => setLetter('b')}>B</button>
         <button onClick={() => setLetter('n')}>N</button>
         <button onClick={() => setLetter('m')}>M</button>
-        <button onClick={handleSubmit}>ENTER</button>
+        <button className={styles.kEnter} onClick={handleSubmit}>ENTER</button>
       </div>
     </div>
   )
