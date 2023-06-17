@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ScoreContextProvider } from './contexts/ScoreContext';
+import { GameContextProvider } from './contexts/GameContext';
 import { ThemeContext } from './contexts/ThemeContext';
 
 import React from 'react';
@@ -16,9 +16,9 @@ function App() {
   return (
     <div className={`App position-relative ${theme === 'dark' ? 'bg-dark text-white' : ''}`}>
       <ToggleThemeButton />
-      <ScoreContextProvider>
+      <GameContextProvider>
         <Router />
-      </ScoreContextProvider>
+      </GameContextProvider>
       <ToastContainer />
     </div>
   );
