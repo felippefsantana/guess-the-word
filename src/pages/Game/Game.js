@@ -222,7 +222,7 @@ const Game = () => {
           <OverlayTrigger
             placement="bottom"
             overlay={
-              <Tooltip style={{position:"fixed"}}>
+              <Tooltip className="d-none d-lg-block" style={{position:"fixed"}}>
                 Mostra uma dica aleatória sobre palavra. Não consome pontuação.
               </Tooltip>
             }
@@ -240,7 +240,7 @@ const Game = () => {
           <OverlayTrigger
             placement="bottom"
             overlay={
-              <Tooltip style={{position:"fixed"}}>
+              <Tooltip className="d-none d-lg-block" style={{position:"fixed"}}>
                 Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
               </Tooltip>
             }
@@ -258,7 +258,7 @@ const Game = () => {
           <OverlayTrigger
             placement="bottom"
             overlay={
-              <Tooltip style={{position:"fixed"}}>
+              <Tooltip className="d-none d-lg-block" style={{position:"fixed"}}>
                 Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
               </Tooltip>
             }
