@@ -1,9 +1,9 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { toast } from 'react-toastify'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleInfo, faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-icons';
 
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 
@@ -51,6 +51,8 @@ const Game = () => {
   const [guesses, setGuesses] = useState(guessesQty);
   const [letter, setLetter] = useState('');
   const [wordTips, setWordTips] = useState([]);
+
+  const [isHelpersModalOpen, setIsHelpersModalOpen] = useState(false);
 
   const pickWordAndCategory = useCallback(() => {
     const item = words[Math.floor(Math.random() * words.length)];
@@ -212,17 +214,9 @@ const Game = () => {
   return (
     <div className={`${styles.game} d-flex flex-column justify-content-center align-items-center text-center py-5`}>
       <div className={`${styles.helpersContainer} mb-5`}>
-        <h4 className="mb-4">Ajudas&nbsp;
-          <OverlayTrigger
-            placement="right"
-            overlay={
-              <Tooltip style={{position:"fixed"}}>
-                Vocẽ pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.
-              </Tooltip>
-            }
-          >
-            <FontAwesomeIcon icon={faCircleInfo} />
-          </OverlayTrigger>
+        <h4 className="mb-4">
+          Ajudas&nbsp;
+          <FontAwesomeIcon icon={faCircleQuestion} onClick={() => setIsHelpersModalOpen(true)} style={{cursor: "pointer"}} />
         </h4>
         <div className="d-flex justify-content-center align-item-center gap-4">
           <OverlayTrigger
@@ -332,6 +326,40 @@ const Game = () => {
       </div>
 
       <Keyboard setLetter={setLetter} handleSubmit={handleSubmit} />
+
+      <Modal size="lg" show={isHelpersModalOpen} onHide={() => setIsHelpersModalOpen(false)} className="fs-5">
+        <Modal.Header closeButton>
+          Ajudas disponíveis
+        </Modal.Header>
+        <Modal.Body>
+          <p className="fs-5">Você pode escolher uma das três ajudas para progredir durante o jogo. Algumas só podem ser usadas uma vez e consomem pontos.</p>
+          <div>
+            <div className="d-flex justify-content-start align-items-center p-2">
+              <button className="btn btn-outline-warning rounded align-top fs-3 pe-none me-3">
+                <FontAwesomeIcon icon={faCircleQuestion} />
+              </button>
+              Mostra uma dica aleatória sobre palavra. Não consome pontuação.
+            </div>
+            <hr />
+            <div className="d-flex justify-content-start align-items-center p-2">
+              <button className="btn btn-outline-danger rounded fs-3 pe-none me-3">
+                <FontAwesomeIcon icon={faEye} />
+              </button>
+              Revela uma letra aleatória da palavra, porém consome 50 ponto. Esta ajuda é regarregada a cada 300 pontos ganhos.
+            </div>
+            <hr />
+            <div className="d-flex justify-content-start align-items-center p-2">
+              <button className={`btn ${theme === 'dark' ? 'btn-outline-secondary' : 'btn-outline-dark'} rounded fs-3 pe-none me-3`}>
+                <FontAwesomeIcon icon={faForward} />
+              </button>
+              Pula esta tentativa e vai para a próxima palavra, porém consome 200 pontos. Só é possível usar uma vez no início do jogo e a cada 1000 pontos ganhos.
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={() => setIsHelpersModalOpen(false)}>Fechar</button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
