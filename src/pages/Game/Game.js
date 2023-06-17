@@ -126,7 +126,7 @@ const Game = () => {
     verifyLetter(letter);
 
     setLetter('');
-    letterInputRef.current.focus();
+    // letterInputRef.current.focus();
   }
 
   const handleShowRandomWordTip = () => {
