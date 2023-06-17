@@ -7,7 +7,7 @@ import { faCircleQuestion, faEye, faForward } from '@fortawesome/free-solid-svg-
 
 import { animate, motion, useMotionValue, useTransform } from 'framer-motion';
 
-import { ScoreContext } from '../../contexts/ScoreContext';
+import { GameContext } from '../../contexts/GameContext';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 import { wordsList } from '../../data/words';
@@ -20,7 +20,11 @@ const guessesQty = 5;
 
 const Game = () => {
   // Contexts
-  const { score, setScore } = useContext(ScoreContext);
+  const {
+    score,
+    setScore,
+    setPickedWord
+  } = useContext(GameContext);
   const { theme } = useContext(ThemeContext);
 
   // Hook useNavigate
@@ -43,7 +47,6 @@ const Game = () => {
   const [countScoreToEnableSkipHelp, setCountScoreToEnableSkipHelp] = useState(0);
 
   const [words] = useState(wordsList);
-  const [pickedWord, setPickedWord] = useState('');
   const [pickedCategory, setPickedCategory] = useState('');
   const [letters, setLetters] = useState([]);
   const [guessedLetters, setGuessedLetters] = useState([]);
