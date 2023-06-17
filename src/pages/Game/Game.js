@@ -23,7 +23,8 @@ const Game = () => {
   const {
     score,
     setScore,
-    setPickedWord
+    setPickedWord,
+    previousWord
   } = useContext(GameContext);
   const { theme } = useContext(ThemeContext);
 
@@ -79,7 +80,7 @@ const Game = () => {
     let wordLetters = word.split('');
     wordLetters = wordLetters.map((l) => l.toLowerCase());
     setLetters(wordLetters);
-  }, [pickWordAndCategory]);
+  }, [pickWordAndCategory, setPickedWord]);
 
   const verifyLetter = (letter) => {
     const guessedLetter = letter.trim().toLowerCase();
